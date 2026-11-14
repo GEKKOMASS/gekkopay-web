@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEKKOPAY · Privacidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#07111F; --surface:#0F1D33; --border:#1F3557; --text:#F3F6FB; --muted:#8DA2C0; --primary:#10B981; --accent:#34D399; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Manrope, system-ui, sans-serif; line-height:1.65; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 22px 64px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:22px; letter-spacing:.5px; }
+  .logo { width:34px; height:34px; border-radius:11px; background:linear-gradient(135deg,#34D399,#059669); display:grid; place-items:center; color:var(--bg); font-weight:800; }
+  .brand b { color:var(--primary); }
+  h1 { font-size: 34px; line-height:1.15; margin: 28px 0 6px; letter-spacing:-.5px; }
+  .date { color: var(--muted); font-weight:500; margin:0 0 28px; }
+  h2 { font-size: 19px; margin: 34px 0 8px; }
+  p, li { color: #D6DEEA; font-weight:500; }
+  ul { padding-left: 20px; }
+  .card { background: var(--surface); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin: 18px 0; }
+  .card strong { color: var(--accent); }
+  a { color: var(--accent); }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand"><div class="logo">G</div><span>GEKKO<b>PAY</b></span></div>
+  <h1>Política de privacidad</h1>
+  <p class="date">Vigente desde el 12 de noviembre de 2026</p>
+
+  <div class="card">
+    <strong>En resumen:</strong> GEKKOPAY es una billetera no custodial. No tenemos cuentas de usuario, no guardamos tus datos en servidores y nunca tenemos acceso a tus llaves ni a tu dinero.
+  </div>
+
+  <h2>1. Quién es responsable</h2>
+  <p>GEKKOPAY es desarrollada por GEKKOMASS (Jesús Leyton), Colombia. Para dudas sobre esta política escríbenos a: <strong>gekkoconversionstudio@gmail.com</strong>.</p>
+
+  <h2>2. Datos que NO recogemos</h2>
+  <ul>
+    <li>No pedimos nombre, correo, teléfono ni documento de identidad.</li>
+    <li>No usamos analítica, publicidad ni rastreadores.</li>
+    <li>No vendemos ni compartimos datos con terceros con fines comerciales.</li>
+  </ul>
+
+  <h2>3. Información que se queda en tu teléfono</h2>
+  <ul>
+    <li><strong>Frase secreta y llaves privadas:</strong> se generan en tu dispositivo y se guardan cifradas en el almacenamiento seguro del sistema (Android Keystore). Nunca salen de tu teléfono.</li>
+    <li><strong>PIN:</strong> solo guardamos una huella criptográfica (hash) del PIN, no el PIN.</li>
+    <li><strong>Historial de envíos:</strong> la app guarda localmente un registro de los envíos hechos desde ella, para mostrártelos.</li>
+    <li><strong>Huella o rostro:</strong> los gestiona el sistema operativo. GEKKOPAY solo recibe un "sí" o "no"; nunca accede a tus datos biométricos.</li>
+  </ul>
+  <p>Si desinstalas la app o borras la wallet, esta información se elimina de tu teléfono. Solo podrás recuperar tus fondos con tu frase secreta.</p>
+
+  <h2>4. Cámara</h2>
+  <p>La cámara se usa únicamente para leer códigos QR de direcciones cuando tú lo pides. Las imágenes no se guardan ni se envían a ningún lugar.</p>
+
+  <h2>5. Conexión con las blockchains</h2>
+  <p>Para mostrar saldos y enviar transacciones, la app se conecta a nodos públicos de las redes Tron y Polygon (por ejemplo TronGrid, PublicNode y dRPC). Estos proveedores pueden ver tu dirección IP y las direcciones públicas que consultas, como ocurre con cualquier billetera. Las transacciones en blockchain son públicas y permanentes por naturaleza.</p>
+
+  <h2>6. Seguridad</h2>
+  <p>Protegemos el acceso con PIN, bloqueo por intentos fallidos y biometría opcional. Recuerda: nadie de GEKKOPAY te pedirá jamás tu frase secreta.</p>
+
+  <h2>7. Menores de edad</h2>
+  <p>GEKKOPAY no está dirigida a menores de 18 años.</p>
+
+  <h2>8. Cambios</h2>
+  <p>Si cambiamos esta política, publicaremos la nueva versión en esta misma página con su fecha de vigencia.</p>
+
+  <footer>© 2026 GEKKOPAY · GEKKOMASS</footer>
+</main>
+</body>
+</html>
