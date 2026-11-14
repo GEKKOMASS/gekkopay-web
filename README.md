@@ -3,7 +3,7 @@
 Descarga oficial de GEKKOPAY para Android: billetera no custodial para USDT y USDC en Tron (TRC-20) y Polygon.
 
 - **Página web:** https://gekkomass.github.io/gekkopay-web/
-- **Descargar la última versión:** [gekkopay.apk](https://gekkomass.github.io/gekkopay-web/gekkopay.apk)
+- **Descargar la última versión:** [gekkopay.apk](https://github.com/GEKKOMASS/gekkopay-web/releases (versión más reciente))
 
 Verifica siempre la huella SHA-256 publicada en cada versión antes de instalar.
 

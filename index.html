@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEKKOPAY · Billetera USDT</title>
-<meta name="description" content="GEKKOPAY: recibe y envía USDT y USDC en Tron (TRC-20) y Polygon. Tus llaves viven solo en tu teléfono. Gratis y sin registro.">
+<meta name="description" content="GEKKOPAY: recibe, envía e intercambia USDT y USDC en Tron (TRC-20) y Polygon. Tus llaves viven solo en tu teléfono. Gratis y sin registro.">
 <meta name="theme-color" content="#07111F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Montserrat:wght@900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   /* Un solo mundo visual: el de la app. Azul marino profundo + esmeralda del dinero.
      Layout: hero en dos columnas (mensaje | teléfono vivo), luego bandas de contenido a ancho de lectura. */
@@ -24,6 +24,7 @@
     --mint-soft: rgba(52, 211, 153, 0.12);
     --amber: #FBBF24;
     --display: "Manrope", "Segoe UI", system-ui, sans-serif;
+    --brand: "Montserrat", "Manrope", system-ui, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
     --radius: 22px;
     color-scheme: dark;
@@ -48,9 +49,9 @@
   /* ---------- Navegación ---------- */
   .nav { position: sticky; top: 0; z-index: 20; background: rgba(7, 17, 31, 0.82); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(31, 53, 87, 0.6); }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
-  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 21px; letter-spacing: 0.5px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--brand); font-weight: 900; font-size: 21px; letter-spacing: 0.2px; }
   .brand b { color: var(--emerald); }
-  .mark { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: linear-gradient(135deg, var(--mint), #059669); color: var(--bg); font-weight: 800; font-size: 19px; }
+  .mark { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: linear-gradient(135deg, var(--mint), #059669); color: var(--bg); font-family: var(--brand); font-weight: 900; font-size: 19px; }
   .nav-links { display: flex; gap: 26px; font-weight: 600; font-size: 15px; color: var(--muted); }
   .nav-links a { text-decoration: none; }
   .nav-links a:hover { color: var(--text); }
@@ -88,7 +89,7 @@
   .s-card p { margin: 0; font-size: 11px; color: rgba(243, 246, 251, 0.75); font-weight: 600; }
   .s-bal { font-weight: 800; font-size: 32px; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
   .s-addr { margin-top: 8px; display: inline-block; font-size: 10px; padding: 5px 9px; border-radius: 999px; background: rgba(7, 17, 31, 0.45); font-family: var(--mono); }
-  .s-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; font-size: 10px; font-weight: 700; }
+  .s-actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; text-align: center; font-size: 10px; font-weight: 700; }
   .s-actions div::before { content: ""; display: block; height: 38px; margin: 0 auto 5px; width: 38px; border-radius: 13px; background: var(--mint-soft); border: 1px solid rgba(52, 211, 153, 0.35); }
   .s-seg { display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 11px; font-weight: 800; text-align: center; }
   .s-seg span { padding: 6px; border-radius: 999px; color: var(--muted); }
@@ -132,6 +133,26 @@
     .fact:nth-child(3) { border-left: 0; }
     .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
   }
+
+
+  /* ---------- Intercambio ---------- */
+  .swap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .swap ul { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 14px; }
+  .swap li { display: flex; gap: 12px; color: var(--muted); }
+  .swap li::before { content: "✓"; color: var(--mint); font-weight: 800; }
+  .swap li b { color: var(--text); }
+  .swap-card { background: linear-gradient(160deg, var(--surface-2), var(--surface)); border: 1px solid var(--line); border-radius: 28px; padding: 22px; box-shadow: 0 30px 70px -30px rgba(16, 185, 129, 0.35); }
+  .sc-box { background: rgba(7, 17, 31, 0.55); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; }
+  .sc-box small { display: block; color: var(--muted); font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+  .sc-amt { display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: clamp(24px, 3vw, 30px); letter-spacing: -0.5px; }
+  .sc-tok { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; padding: 6px 12px 6px 6px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+  .sc-tok i { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 8px; color: #fff; }
+  .sc-flip { width: 44px; height: 44px; margin: -10px auto; position: relative; z-index: 1; border-radius: 14px; display: grid; place-items: center; background: var(--surface-2); border: 1px solid var(--line); color: var(--mint); font-weight: 800; }
+  .sc-rows { margin-top: 16px; display: grid; gap: 10px; font-size: 14px; }
+  .sc-rows div { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); }
+  .sc-rows b { color: var(--text); font-weight: 700; }
+  .sc-rows .hi b { color: var(--mint); }
+  @media (max-width: 860px) { .swap { grid-template-columns: 1fr; } }
 
   /* ---------- Secciones ---------- */
   section.band { padding: 88px 0; }
@@ -212,6 +233,7 @@
     <a class="brand" href="#inicio" aria-label="GEKKOPAY, inicio"><span class="mark">G</span><span>GEKKO<b>PAY</b></span></a>
     <nav class="nav-links" aria-label="Secciones">
       <a href="#como-funciona">Cómo funciona</a>
+      <a href="#intercambio">Intercambio</a>
       <a href="#seguridad">Seguridad</a>
       <a href="#comisiones">Comisiones</a>
       <a href="#preguntas">Preguntas</a>
@@ -224,13 +246,13 @@
   <section class="hero">
     <div class="wrap">
       <div>
-        <span class="eyebrow"><i></i>Billetera de USDT · Tron y Polygon</span>
+        <span class="eyebrow"><i></i>Nuevo · Intercambia USDT, USDC y POL</span>
         <h1>Tu dinero digital, <em>en tus manos.</em></h1>
         <p class="lead">Recibe y envía <strong>USDT y USDC</strong> en segundos. Tus llaves viven solo en tu teléfono: <strong>nadie más puede tocar tu dinero</strong>, ni siquiera nosotros.</p>
         <div class="ctas">
           <a class="btn btn-primary js-download" href="#descargar">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 00-.66-.38l-1.86 3.22A11.4 11.4 0 0012 8.1c-1.77 0-3.43.38-4.92 1.04L5.22 5.92a.38.38 0 00-.66.38L6.4 9.48A10.8 10.8 0 001 18h22a10.8 10.8 0 00-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg>
-            <span>Descargar para Android<small>Gratis · versión 1.2 · 38 MB</small></span>
+            <span>Descargar para Android<small>Gratis · versión 1.2.1 · 37 MB</small></span>
           </a>
           <span class="btn btn-ghost" aria-label="Versión para iPhone en preparación">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.27-1.6 2.78-.41 6.9 1.15 9.16.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.12 2.76-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.42-3.66zM14.1 5.86c.63-.77 1.06-1.83.94-2.89-.91.04-2.01.61-2.66 1.37-.58.67-1.09 1.75-.96 2.79 1.02.08 2.05-.52 2.68-1.27z"/></svg>
@@ -248,7 +270,7 @@
             <div class="s-bal">$125.00</div>
             <span class="s-addr">Tron: TQx7…9fK2</span>
           </div>
-          <div class="s-actions"><div>Enviar</div><div>Recibir</div><div>Escanear</div><div>Historial</div></div>
+          <div class="s-actions"><div>Enviar</div><div>Recibir</div><div>Cambiar</div><div>Escanear</div><div>Historial</div></div>
           <div class="s-seg"><span>Polygon</span><span class="on">Tron · TRC-20</span></div>
           <div class="s-list">
             <div class="s-row"><span class="tok" style="background:#26A17B">USDT</span>USDT<span class="v">125.00</span></div>
@@ -265,7 +287,7 @@
 
   <div class="facts">
     <div class="wrap">
-      <div class="fact"><b>$0</b><span>de comisión de GEKKOPAY</span></div>
+      <div class="fact"><b>$0</b><span>por enviar y recibir</span></div>
       <div class="fact"><b>0</b><span>datos personales pedidos</span></div>
       <div class="fact"><b>2 redes</b><span>Tron TRC-20 y Polygon</span></div>
       <div class="fact"><b>12</b><span>palabras secretas: tu única llave</span></div>
@@ -281,6 +303,35 @@
         <div class="step"><h3>Crea tu billetera</h3><p>GEKKOPAY genera 12 palabras secretas en tu teléfono. Las anotas en papel y creas tu PIN de 6 dígitos. Sin formularios.</p></div>
         <div class="step"><h3>Recibe</h3><p>Copia tu dirección o comparte tu código QR. Desde Binance, retira USDT eligiendo la red <b>TRX (TRC-20)</b> y llega en segundos.</p></div>
         <div class="step"><h3>Envía</h3><p>Pega o escanea la dirección, revisa el resumen con la comisión exacta y confirma con tu PIN o tu huella.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="intercambio">
+    <div class="wrap">
+      <div class="swap">
+        <div>
+          <span class="kicker">Intercambio</span>
+          <h2>Cambia entre tus monedas sin salir de la app.</h2>
+          <p class="intro">Pasa de USDT a USDC o a POL en Polygon en segundos. GEKKOPAY busca el mejor precio entre decenas de mercados y tú confirmas con tu PIN.</p>
+          <ul>
+            <li><span><b>Mejor precio automático:</b> la ruta la calcula 0x, uno de los agregadores más usados del mundo.</span></li>
+            <li><span><b>Todo a la vista:</b> antes de confirmar ves cuánto recibes, el mínimo garantizado y cada comisión.</span></li>
+            <li><span><b>Protección de precio:</b> si el precio se mueve más del 1 %, la operación se cancela sola.</span></li>
+            <li><span><b>Sigue siendo tuyo:</b> la app autoriza solo el monto exacto y firma en tu teléfono.</span></li>
+          </ul>
+        </div>
+        <div class="swap-card" role="img" aria-label="Ejemplo de intercambio: pagas 10 USDT y recibes aproximadamente 9,93 USDC">
+          <div class="sc-box"><small>Pagas</small><div class="sc-amt">10<span class="sc-tok"><i style="background:#26A17B">USDT</i>USDT</span></div></div>
+          <div class="sc-flip" aria-hidden="true">⇅</div>
+          <div class="sc-box"><small>Recibes aprox.</small><div class="sc-amt">9,93<span class="sc-tok"><i style="background:#2775CA">USDC</i>USDC</span></div></div>
+          <div class="sc-rows" aria-hidden="true">
+            <div><span>Comisión GEKKOPAY (0,5 %)</span><b>0,05 USDT</b></div>
+            <div><span>Proveedor 0x (0,15 %)</span><b>0,015 USDT</b></div>
+            <div><span>Comisión de red</span><b>≈ $0,01 en POL</b></div>
+            <div class="hi"><span>Protección de precio</span><b>Activa · 1 %</b></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -313,16 +364,17 @@
   <section class="band" id="comisiones" style="padding-top:0">
     <div class="wrap">
       <span class="kicker">Comisiones claras</span>
-      <h2>Pagas solo lo que cobra la red.</h2>
-      <p class="intro">GEKKOPAY no cobra por enviar ni por recibir. Antes de cada envío, la app te muestra la comisión de la red para que la apruebes.</p>
+      <h2>Comisiones claras, sin sorpresas.</h2>
+      <p class="intro">Enviar y recibir no tienen costo de GEKKOPAY: solo pagas la comisión de la red. El único servicio con comisión es el intercambio, y siempre la ves antes de confirmar.</p>
       <div class="fees">
         <div class="fee"><h3>Recibir USDT, USDC, TRX o POL</h3><div class="amt zero">Gratis<span class="who">Nadie cobra</span></div></div>
         <div class="fee"><h3>Enviar USDT por Tron (TRC-20)<span class="sub">A una dirección que ya tiene USDT</span></h3><div class="amt">≈ 6–7 TRX<span class="who">Lo cobra la red Tron</span></div></div>
         <div class="fee"><h3>Enviar USDT por Tron (TRC-20)<span class="sub">A una dirección que nunca ha tenido USDT</span></h3><div class="amt">≈ 13–14 TRX<span class="who">Lo cobra la red Tron</span></div></div>
         <div class="fee"><h3>Enviar USDC o USDT por Polygon</h3><div class="amt">Menos de $0,05<span class="who">Lo cobra la red Polygon, en POL</span></div></div>
-        <div class="fee"><h3>Usar GEKKOPAY</h3><div class="amt zero">$0<span class="who">Siempre</span></div></div>
+        <div class="fee"><h3>Intercambiar en Polygon<span class="sub">USDT, USDC y POL</span></h3><div class="amt">0,5 %<span class="who">GEKKOPAY · + 0,15 % proveedor 0x + red</span></div></div>
+        <div class="fee"><h3>Enviar y recibir con GEKKOPAY</h3><div class="amt zero">$0<span class="who">Siempre</span></div></div>
       </div>
-      <p class="note">Para enviar USDT por Tron necesitas tener algo de TRX en tu billetera para pagar la comisión. Los valores son aproximados (noviembre de 2026) y los fija cada red, no GEKKOPAY. El exchange desde el que retiras (por ejemplo Binance) cobra su propia comisión de retiro.</p>
+      <p class="note">Para enviar USDT por Tron necesitas tener algo de TRX en tu billetera para pagar la comisión. Las comisiones de red son aproximadas (noviembre de 2026) y las fija cada red, no GEKKOPAY. El exchange desde el que retiras (por ejemplo Binance) cobra su propia comisión de retiro.</p>
     </div>
   </section>
 
@@ -335,7 +387,7 @@
           <p class="intro" style="margin-bottom:28px">Mientras llegamos a Google Play y App Store, puedes instalar GEKKOPAY directamente. Es la misma app, firmada por GEKKOPAY.</p>
           <a class="btn btn-primary js-download" href="#descargar">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>
-            <span class="js-dl-label">Descargar GEKKOPAY<small>Android 8 o superior · 38 MB</small></span>
+            <span class="js-dl-label">Descargar GEKKOPAY<small>Android 8 o superior · 37 MB · versión 1.2.1</small></span>
           </a>
           <div class="hash">Huella SHA-256 del archivo (para verificar que es el original):<code class="js-hash">Se publica junto con cada versión.</code></div>
         </div>
@@ -354,7 +406,8 @@
       <span class="kicker">Preguntas frecuentes</span>
       <h2>Lo que más nos preguntan.</h2>
       <div class="faq">
-        <details><summary>¿GEKKOPAY es gratis?</summary><p>Sí. Descargar y usar GEKKOPAY no cuesta nada. Solo pagas la comisión que cobra la red (Tron o Polygon) cuando envías, y la app te la muestra antes de confirmar.</p></details>
+        <details><summary>¿GEKKOPAY es gratis?</summary><p>Sí. Descargar GEKKOPAY, enviar y recibir no cuesta nada: solo pagas la comisión que cobra la red (Tron o Polygon), y la app te la muestra antes de confirmar. El intercambio de monedas tiene una comisión de servicio del 0,5 %, que siempre ves antes de aceptar.</p></details>
+        <details><summary>¿Cómo funciona el intercambio?</summary><p>En Inicio toca "Cambiar", elige qué moneda pagas y cuál recibes. GEKKOPAY consulta a 0x, que compara precios entre muchos mercados de Polygon, y te muestra cuánto recibes y el mínimo garantizado. La primera vez con cada moneda son dos pasos: autorizar el monto exacto e intercambiar. Necesitas un poco de POL para la comisión de red.</p></details>
         <details><summary>¿Qué pasa si pierdo o me roban el teléfono?</summary><p>Tu dinero no está en el teléfono, está en la blockchain. Instalas GEKKOPAY en otro teléfono, eliges "Ya tengo una wallet" y escribes tus 12 palabras. Por eso es tan importante guardarlas en papel y en un lugar seguro. Sin esas palabras nadie, ni GEKKOPAY, puede recuperar tus fondos.</p></details>
         <details><summary>¿Pueden congelar o bloquear mi dinero?</summary><p>GEKKOPAY no puede: no guardamos tus fondos ni tus llaves. Ten en cuenta que los emisores de las monedas estables (Tether para USDT y Circle para USDC) tienen sus propias políticas sobre sus tokens.</p></details>
         <details><summary>¿Qué monedas y redes soporta?</summary><p>USDT y TRX en la red Tron (TRC-20), y USDC, USDT y POL en Polygon. Una sola frase de 12 palabras sirve para ambas redes. Es compatible con MetaMask, TronLink y Trust Wallet.</p></details>
@@ -380,8 +433,9 @@
 
 <script>
   // Enlace de descarga: se completa al publicar cada versión.
-  var DOWNLOAD_URL = "gekkopay.apk";
-  var SHA256 = "99ec4d80c6a17e5e044e2bc70a984f42b0f95d680e8279d5acbefe5286c1a79f";
+  // Siempre la última versión publicada en GitHub Releases (el archivo se llama gekkopay-<build>.apk)
+  var DOWNLOAD_URL = "https://github.com/GEKKOMASS/gekkopay-web/releases/download/v1.2.1/gekkopay-7.apk";
+  var SHA256 = "85a3435c3c8869172a9d7c949f66fc1757a76dcaba2c928a65805019f2126003";
   (function () {
     if (SHA256) document.querySelectorAll(".js-hash").forEach(function (el) { el.textContent = SHA256; });
     if (!DOWNLOAD_URL) return;
