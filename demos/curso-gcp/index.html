@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Programa IA & Agentes en Google Cloud · Propuesta GEKKOMASS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F7FB;--ink:#0F172A;--mu:#5B6475;--ln:#E3E7EF;--card:#fff;--b1:#2563EB;--b2:#7C3AED;--g1:#059669;--y1:#D97706;--r1:#DC2626;--dk:#0B1220;--disp:'Space Grotesk',system-ui,sans-serif;--sans:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;font-size:15.5px}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--disp);letter-spacing:-.01em}
+header.top{background:var(--dk);color:#fff;position:sticky;top:0;z-index:20}
+header.top .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.lg{font-family:var(--disp);font-weight:700;font-size:17px;display:flex;align-items:center;gap:9px}
+.lg i{font-style:normal;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--b1),var(--b2));display:grid;place-items:center;font-size:14px}
+.tabs{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{border:1px solid #273449;background:transparent;color:#A9B4C7;padding:7px 12px;border-radius:9px;font-weight:600;font-size:13.5px}
+.tabs button.on{background:#fff;color:var(--dk);border-color:#fff}
+@media(max-width:720px){header.top .wrap{height:auto;padding:10px 20px;flex-wrap:wrap}.tabs{margin-left:0;width:100%}.tabs button{flex:1;padding:7px 6px;font-size:12.5px}}
+.hero{background:radial-gradient(900px 400px at 90% -20%,rgba(124,58,237,.35),transparent 60%),radial-gradient(700px 400px at 0% 120%,rgba(37,99,235,.3),transparent 60%),var(--dk);color:#fff;padding:54px 0 60px}
+.hero h1{font-size:clamp(30px,4.6vw,50px);line-height:1.08;max-width:820px}
+.hero h1 span{background:linear-gradient(90deg,#60A5FA,#C4B5FD);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:#B8C2D6;max-width:720px;margin-top:14px;font-size:17px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px;max-width:820px}
+@media(max-width:720px){.stats{grid-template-columns:1fr 1fr}}
+.stats div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px}
+.stats b{display:block;font-family:var(--disp);font-size:26px}
+.stats small{color:#A9B4C7}
+.upd{margin-top:22px;background:rgba(5,150,105,.14);border:1px solid rgba(5,150,105,.45);color:#A7F3D0;border-radius:12px;padding:12px 14px;font-size:14px;max-width:820px}
+.view{display:none}.view.on{display:block}
+section{padding:46px 0}
+.eb{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:var(--b2)}
+h2{font-size:clamp(24px,3vw,32px);margin:6px 0 8px}
+.lead{color:var(--mu);max-width:760px}
+/* path */
+.path{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+@media(max-width:860px){.path{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.path{grid-template-columns:1fr}}
+.pm{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:16px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.pm:before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:var(--c)}
+.pm:hover,.pm.on{box-shadow:0 14px 34px -20px rgba(15,23,42,.45);transform:translateY(-2px)}
+.pm.on{border-color:var(--c)}
+.pm small{font-weight:700;color:var(--c);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.pm h3{font-size:17px;margin:4px 0 6px;line-height:1.25}
+.pm .meta{color:var(--mu);font-size:13px}
+.mdet{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:22px;margin-top:14px}
+.mdet h3{font-size:22px}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin-top:14px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.grid2>*{min-width:0}
+.ls{list-style:none;padding:0}
+.ls li{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--ln)}
+.ls li:first-child{border-top:0}
+.ls .h{flex:none;font-family:var(--mono);font-size:12px;background:#EEF2FF;color:#3730A3;border-radius:7px;padding:2px 7px;height:fit-content}
+.ls b{display:block;font-size:15px}
+.ls span{color:var(--mu);font-size:13.5px}
+.box{background:#F8FAFC;border:1px solid var(--ln);border-radius:14px;padding:14px;margin-bottom:12px}
+.box h4{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;font-weight:600;padding:4px 9px;border-radius:99px;background:#fff;border:1px solid var(--ln)}
+.box p{font-size:14px;color:var(--ink)}
+.cta{display:inline-flex;gap:8px;align-items:center;border:0;border-radius:10px;padding:11px 16px;font-weight:700;background:var(--b1);color:#fff;text-decoration:none}
+.cta.alt{background:#fff;color:var(--ink);border:1px solid var(--ln)}
+/* deliverables */
+.dl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+@media(max-width:860px){.dl{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.dl{grid-template-columns:1fr}}
+.dl div{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px}
+.dl b{display:block;margin:6px 0 2px}
+.dl span{color:var(--mu);font-size:13.5px}
+/* lesson */
+.lhead{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:22px}
+.lhead .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.obj{margin-top:12px;padding-left:18px;color:var(--ink)}
+.obj li{margin:4px 0}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:16px}
+@media(max-width:860px){.steps{grid-template-columns:repeat(3,1fr)}}
+.st{border:1px solid var(--ln);background:#fff;border-radius:12px;padding:10px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+.st i{display:block;font-style:normal;font-size:22px}
+.st.on{border-color:var(--b1);background:#EFF6FF;color:#1D4ED8}
+.stx{margin-top:10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:14px;font-size:14.5px;min-height:76px}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:860px){.pg{grid-template-columns:1fr}}
+.pg>*{min-width:0}
+.panel{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:16px}
+.panel h4{font-size:14px;margin-bottom:10px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.doc{border:1px solid var(--ln);border-radius:10px;padding:9px 11px;margin-bottom:8px;font-size:13.5px;transition:.3s}
+.doc b{font-size:13px}
+.doc small{display:block;color:var(--mu);font-size:12px}
+.doc.hit{border-color:var(--g1);background:#ECFDF5}
+.doc .sc{float:right;font-family:var(--mono);font-size:11.5px;color:var(--g1);font-weight:600}
+.ask{display:flex;gap:8px;margin-bottom:8px}
+.ask input{flex:1;min-width:0;border:1px solid var(--ln);border-radius:10px;padding:10px 12px;font:inherit}
+.sugg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.sugg button{border:1px solid var(--ln);background:#fff;border-radius:99px;padding:4px 10px;font-size:12.5px;color:var(--mu)}
+.ans{border-radius:12px;background:#0B1220;color:#E2E8F0;padding:14px;font-size:14px;min-height:120px}
+.ans .src{display:inline-block;background:#1E293B;color:#93C5FD;border-radius:6px;padding:1px 6px;font-size:11.5px;font-family:var(--mono);margin-left:4px}
+.ans .no{color:#FCA5A5}
+.tog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mu)}
+.tog input{accent-color:var(--b1)}
+pre{background:#0B1220;color:#E2E8F0;border-radius:12px;padding:14px;overflow:auto;font-family:var(--mono);font-size:12.5px;line-height:1.6;margin:8px 0 14px}
+pre .c{color:#64748B}pre .k{color:#C4B5FD}pre .s{color:#86EFAC}
+.lab{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:18px;margin-top:16px}
+.lab ol{padding-left:20px}
+.lab li{margin:10px 0}
+.warn{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;font-size:13.5px;color:#92400E;margin:10px 0}
+/* quiz */
+.qz{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:18px;margin-top:16px}
+.q{margin-bottom:16px}
+.q b{display:block;margin-bottom:8px}
+.q label{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--ln);border-radius:10px;padding:9px 11px;margin-bottom:6px;cursor:pointer;font-size:14.5px}
+.q label.ok{border-color:var(--g1);background:#ECFDF5}.q label.bad{border-color:var(--r1);background:#FEF2F2}
+.q .why{display:none;font-size:13.5px;color:var(--mu);margin-top:4px}
+.q.done .why{display:block}
+.score{font-family:var(--disp);font-size:20px;margin-top:6px}
+/* rubric */
+table.rb{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
+table.rb th,table.rb td{border-bottom:1px solid var(--ln);padding:10px;text-align:left;vertical-align:top}
+table.rb th{background:#F8FAFC;color:var(--mu);font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+.tw{overflow:auto;border:1px solid var(--ln);border-radius:12px;background:#fff}
+footer{background:var(--dk);color:#8A97AD;font-size:13px;padding:26px 0;margin-top:30px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wm{position:fixed;right:12px;bottom:12px;background:rgba(11,18,32,.92);color:#C4B5FD;font-size:11px;font-weight:700;padding:6px 10px;border-radius:8px;z-index:60;pointer-events:none;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="lg"><i>AI</i>Programa IA & Agentes · Google Cloud</div>
+  <div class="tabs" id="tabs"><button class="on" data-v="plan">Programa</button><button data-v="lesson">Lección de muestra</button><button data-v="final">Proyecto final</button></div>
+</div></header>
+
+<div class="view on" id="v-plan">
+  <div class="hero"><div class="wrap">
+    <h1>De cero a agentes de IA <span>en producción</span> sobre Google Cloud</h1>
+    <p>Programa práctico en 4 módulos progresivos. La mayoría de las lecciones incluye un laboratorio práctico en la consola, y el curso cierra con un agente empresarial desplegado, monitoreado y seguro.</p>
+    <div class="stats"><div><b>4</b><small>módulos progresivos</small></div><div><b>64 h</b><small>de formación sugeridas</small></div><div><b>14</b><small>laboratorios guiados</small></div><div><b>1</b><small>proyecto final evaluable</small></div></div>
+    <div class="upd">✅ <b>Actualizado a noviembre de 2026.</b> Incluye los cambios de Google Cloud Next '26: Vertex AI pasa a llamarse <b>Gemini Enterprise Agent Platform</b>, Vertex AI Studio pasa a ser <b>Agent Studio</b> (diseñador visual de bajo código), Agent Engine pasa a ser <b>Agent Runtime</b> y Vertex AI Search pasa a ser <b>Agent Search</b>. También consolida el paso de Agentspace a <b>Gemini Enterprise</b> (octubre de 2025). El temario usa los nombres nuevos con el anterior entre paréntesis, porque mucha documentación y muchos tutoriales siguen con los nombres viejos.</div>
+  </div></div>
+
+  <section><div class="wrap">
+    <span class="eb">Ruta de aprendizaje</span>
+    <h2>Cuatro niveles, un mismo caso de negocio</h2>
+    <p class="lead">Todos los módulos trabajan sobre un caso continuo: una empresa ficticia de servicios que quiere un asistente interno que responda con sus propias políticas, consulte sus sistemas y opere de forma segura. Así el participante ve cómo madura una solución real, de prototipo a producción.</p>
+    <div class="path" id="path"></div>
+    <div class="mdet" id="mdet"></div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <span class="eb">Entregables del programa</span>
+    <h2>Material listo para dictar</h2>
+    <div class="dl">
+      <div>📘<b>Currículo detallado</b><span>Objetivos de aprendizaje, horas, prerrequisitos y resultados por módulo y por lección.</span></div>
+      <div>🧪<b>14 guías de laboratorio</b><span>Paso a paso, con capturas, código en Python y solución de referencia.</span></div>
+      <div>🖥<b>Presentaciones</b><span>Diapositivas por lección, con diagramas de arquitectura y notas para el instructor.</span></div>
+      <div>📓<b>Notebooks</b><span>Cuadernos de Python ejecutables en Colab Enterprise o Workbench de Agent Platform.</span></div>
+      <div>✅<b>Banco de evaluación</b><span>Preguntas por módulo, retos prácticos y rúbrica del proyecto final.</span></div>
+      <div>🧭<b>Guía del instructor</b><span>Tiempos, errores comunes, control de costos del proyecto de práctica y plan B si falla un servicio.</span></div>
+    </div>
+  </div></section>
+</div>
+
+<div class="view" id="v-lesson">
+  <section><div class="wrap">
+    <div class="lhead">
+      <span class="eb">Módulo 2 · Lección 2.2 · Muestra real del material</span>
+      <h2>RAG empresarial: que el agente responda con los documentos de la empresa</h2>
+      <p class="lead">RAG (Retrieval-Augmented Generation, "generación aumentada con recuperación") es la técnica para que un modelo responda buscando primero en documentos propios, en vez de inventar con lo que aprendió en su entrenamiento.</p>
+      <div class="tags"><span class="chip">⏱ 4 horas</span><span class="chip">Nivel intermedio</span><span class="chip">RAG Engine</span><span class="chip">Agent Search</span><span class="chip">Python</span></div>
+      <ol class="obj">
+        <li>Explicar el flujo RAG completo y cuándo conviene frente al fine-tuning (reentrenar el modelo).</li>
+        <li>Crear un corpus en RAG Engine, importar documentos y ajustar el troceado (chunking).</li>
+        <li>Conectar el corpus a un modelo Gemini como herramienta de recuperación y medir la calidad de las respuestas.</li>
+      </ol>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h4>1 · El flujo RAG paso a paso <small style="color:var(--mu);font-weight:500">haz clic o toca cada etapa</small></h4>
+      <div class="steps" id="steps"></div>
+      <div class="stx" id="stx"></div>
+    </div>
+
+    <div class="pg">
+      <div class="panel">
+        <h4>2 · Corpus de práctica <small style="color:var(--mu);font-weight:500">empresa ficticia "Nordia"</small></h4>
+        <div id="docs"></div>
+      </div>
+      <div class="panel">
+        <h4>3 · Simulador: pregunta al asistente <label class="tog"><input type="checkbox" id="ragOn" checked> RAG activado</label></h4>
+        <div class="ask"><input id="qIn" placeholder="Ej.: ¿Cuántos días de teletrabajo tengo?"><button class="cta" id="qGo">Preguntar</button></div>
+        <div class="sugg" id="sugg"></div>
+        <div class="ans" id="ans">Escribe una pregunta o elige una sugerencia. Luego apaga el RAG y compara: sin documentos, el modelo no puede conocer las políticas internas.</div>
+        <p style="font-size:12px;color:var(--mu);margin-top:8px">Simulación didáctica en el navegador: el puntaje imita la similitud vectorial (embeddings). En el laboratorio se usa el servicio real.</p>
+      </div>
+    </div>
+
+    <div class="lab">
+      <h4 style="font-size:16px">4 · Laboratorio guiado (extracto)</h4>
+      <div class="warn">⚠ El SDK (kit de desarrollo) de Google cambia rápido: el módulo clásico <code>vertexai.rag</code> está en desuso desde la versión 1.160 y la documentación oficial ya usa el nuevo cliente <code>agentplatform</code>. Este extracto muestra el código clásico porque es el que aparece en la mayoría de tutoriales; la guía completa usa el cliente nuevo como versión principal, fija versiones y explica la migración. Usamos <code>europe-west4</code> porque en algunas regiones RAG Engine requiere solicitar acceso.</div>
+      <ol>
+        <li><b>Preparar el proyecto</b> en Cloud Shell (la terminal del navegador de Google Cloud):
+<pre>gcloud config set project <span class="s">TU_PROYECTO</span>
+gcloud auth application-default login
+pip install "google-cloud-aiplatform&gt;=1.158,&lt;1.160"   <span class="c"># versión fijada del SDK clásico</span></pre></li>
+        <li><b>Crear el corpus</b> con un modelo de embeddings (el que convierte texto en vectores numéricos para buscar por significado):
+<pre><span class="k">from</span> vertexai <span class="k">import</span> rag
+<span class="k">import</span> vertexai
+vertexai.init(project=<span class="s">"TU_PROYECTO"</span>, location=<span class="s">"europe-west4"</span>)
+
+emb = rag.RagEmbeddingModelConfig(
+    vertex_prediction_endpoint=rag.VertexPredictionEndpoint(
+        publisher_model=<span class="s">"publishers/google/models/text-embedding-005"</span>))
+corpus = rag.create_corpus(
+    display_name=<span class="s">"politicas-nordia"</span>,
+    backend_config=rag.RagVectorDbConfig(rag_embedding_model_config=emb))</pre></li>
+        <li><b>Importar documentos</b> desde Cloud Storage y definir el troceado:
+<pre>rag.import_files(
+    corpus.name, [<span class="s">"gs://TU_BUCKET/politicas/"</span>],
+    transformation_config=rag.TransformationConfig(
+        chunking_config=rag.ChunkingConfig(chunk_size=512, chunk_overlap=100)))</pre></li>
+        <li><b>Probar la recuperación</b> antes de conectar el modelo <span class="c" style="color:var(--mu)">(si aquí no aparecen los fragmentos correctos, el modelo tampoco responderá bien)</span>:
+<pre>cfg = rag.RagRetrievalConfig(top_k=3)
+res = rag.retrieval_query(
+    rag_resources=[rag.RagResource(rag_corpus=corpus.name)],
+    text=<span class="s">"¿Cuántos días de teletrabajo tengo?"</span>,
+    rag_retrieval_config=cfg)
+print(res)</pre></li>
+        <li><b>Reto evaluable:</b> cambia <code>chunk_size</code> a 256 y a 1024, repite 10 preguntas del banco de pruebas y registra cuántas respuestas citan el documento correcto. Conclusión esperada: no existe un tamaño único; se mide.</li>
+        <li><b>Pasos 6 a 8 (en la guía completa):</b> conectar el corpus a Gemini como herramienta de recuperación, generar respuestas con cita de la fuente y medir su calidad con un conjunto de evaluación.</li>
+      </ol>
+    </div>
+
+    <div class="qz">
+      <h4 style="font-size:16px">5 · Comprueba lo aprendido</h4>
+      <div id="quiz"></div>
+      <button class="cta" id="qzGo">Corregir</button> <span class="score" id="qzScore"></span>
+    </div>
+  </div></section>
+</div>
+
+<div class="view" id="v-final">
+  <section><div class="wrap">
+    <span class="eb">Proyecto final · Módulo 4</span>
+    <h2>Asistente interno de Nordia, en producción</h2>
+    <p class="lead">Cada participante (o equipo, según el formato del grupo) entrega un agente construido con ADK (Agent Development Kit, el kit de código abierto de Google para programar agentes; en el curso se usa Python), conectado a RAG Engine, protegido con Model Armor (el filtro de seguridad de Google para prompts y respuestas) y desplegado en Agent Runtime (antes Agent Engine) con monitoreo.</p>
+    <div class="tw" style="margin-top:16px"><table class="rb">
+      <tr><th>Criterio</th><th>Peso</th><th>Qué se evalúa</th></tr>
+      <tr><td><b>Funcionalidad</b></td><td>25 %</td><td>Responde con las políticas correctas, cita la fuente y usa al menos una herramienta externa (API o base de datos).</td></tr>
+      <tr><td><b>Calidad medida</b></td><td>20 %</td><td>Conjunto de evaluación propio (mínimo 20 preguntas) con métricas de exactitud y fidelidad a la fuente.</td></tr>
+      <tr><td><b>Seguridad</b></td><td>20 %</td><td>IAM con mínimo privilegio, secretos en Secret Manager, plantilla de Model Armor contra prompt injection (instrucciones maliciosas escondidas en el texto) y prueba documentada de ataque bloqueado.</td></tr>
+      <tr><td><b>Operación (MLOps)</b></td><td>20 %</td><td>Despliegue reproducible, versión del agente, registros y trazas en Cloud Logging y Cloud Trace, alerta configurada.</td></tr>
+      <tr><td><b>Costos y documentación</b></td><td>15 %</td><td>Estimación de costo mensual, presupuesto con alerta en Billing y README (documento de instrucciones) de arquitectura.</td></tr>
+    </table></div>
+    <div class="dl" style="margin-top:16px">
+      <div>🎯<b>Cada participante sale con portafolio</b><span>Cada participante termina con un proyecto propio que puede mostrar en una entrevista o a su jefe.</span></div>
+      <div>💸<b>Costos bajo control</b><span>Guía de presupuestos y limpieza de recursos para que la práctica no genere facturas sorpresa.</span></div>
+      <div>🔄<b>Material mantenible</b><span>Anexo de equivalencias de nombres y versiones, pensado para actualizarse sin rehacer el curso.</span></div>
+    </div>
+  </div></section>
+</div>
+
+<footer><div class="wrap"><span>Muestra de propuesta · Programa diseñado por GEKKOMASS · © GEKKOMASS. Prohibida su reproducción.</span><span>Google Cloud, Gemini y Vertex AI son marcas de Google LLC. Material independiente, no afiliado a Google.</span></div></footer>
+<div class="wm">DEMO · © GEKKOMASS</div>
+<script>
+/*! © GEKKOMASS · Muestra de programa de formación · Prohibida su copia o reutilización */
+!function(){"use strict";var e=function(e){return document.querySelector(e)};e("#tabs").onclick=function(e){var a=e.target.closest("[data-v]");a&&(document.querySelectorAll("#tabs button").forEach((function(e){e.classList.toggle("on",e===a)})),document.querySelectorAll(".view").forEach((function(e){e.classList.toggle("on",e.id==="v-"+a.dataset.v)})),window.scrollTo(0,0))};var a=[{c:"#2563EB",lvl:"Básico",t:"Fundamentos y exploración de modelos",h:12,labs:3,out:"Entiende qué servicio de IA de Google Cloud usar en cada caso, prueba modelos preentrenados y conoce el ciclo de vida de un modelo.",pre:"Ninguno avanzado (SQL básico deseable para el lab 1.4). Cuenta de Google Cloud con facturación activa (se entrega guía de presupuesto).",tools:["Gemini Enterprise Agent Platform","Model Garden","APIs de Vision, Speech y Translation","Document AI","BigQuery ML"],L:[["1.1","IA, machine learning e IA generativa","Conceptos sin humo, casos reales y límites de cada enfoque.",2],["1.2","Mapa de servicios de IA en Google Cloud","Agent Platform (antes Vertex AI), Model Garden, Gemini Enterprise y APIs preentrenadas. Lab: comparar modelos en Model Garden.",3],["1.3","Prompts, parámetros y costos","Instrucciones del sistema, temperatura, tokens y cómo estimar el costo por consulta. Lab: prompts de extracción de datos.",3],["1.4","Cómo se desarrolla un modelo","Datos, entrenamiento, evaluación; modelo preentrenado vs AutoML vs entrenamiento propio. Lab: primer modelo con BigQuery ML.",4]],ev:"Cuestionario de 15 preguntas + reto: elegir y justificar el servicio adecuado para 5 casos de negocio."},{c:"#7C3AED",lvl:"Intermedio",t:"RAG empresarial y agentes sin código o de bajo código",h:16,labs:4,out:"Construye un asistente que responde con documentos de la empresa y un agente sin código conectado a sistemas existentes.",pre:"Módulo 1. Python básico recomendado.",tools:["RAG Engine","Agent Search (antes Vertex AI Search)","Constructor sin código de Gemini Enterprise","Agent Studio (antes Vertex AI Studio)","Apigee API hub","Cloud Storage"],L:[["2.1","Por qué RAG y cuándo no","Grounding (anclar respuestas a fuentes) con Google Search vs datos propios; RAG vs fine-tuning.",2],["2.2","RAG empresarial con RAG Engine","Corpus, troceado, embeddings y recuperación. Lab completo. 👉 Ver la lección de muestra.",4,!0],["2.3","Búsqueda empresarial lista para usar","Agent Search (antes Vertex AI Search) sobre sitios, documentos y datos estructurados. Lab: buscador interno en minutos.",3],["2.4","Agentes sin código y de bajo código","El constructor sin código de la app Gemini Enterprise (Agent Designer, que Google está migrando a Workflow Builder) para equipos de negocio y Agent Studio para equipos técnicos: cuándo usar cada uno. Lab: agente de bienvenida a empleados.",4],["2.5","Integración con sistemas existentes","Conectores, APIs publicadas en Apigee API hub y webhooks hacia CRM o ERP. Lab: el agente consulta un sistema externo.",3]],ev:"Reto práctico: asistente RAG con 20 preguntas de prueba y porcentaje de respuestas con la fuente correcta."},{c:"#059669",lvl:"Avanzado",t:"Orquestación avanzada y agentes en Python",h:20,labs:4,out:"Programa agentes y sistemas multiagente con ADK, les da herramientas, memoria y los optimiza para producción.",pre:"Módulos 1 y 2. Python intermedio (funciones, entornos virtuales, APIs).",tools:["ADK (Agent Development Kit)","Agent Runtime: sesiones y Memory Bank","MCP","A2A (Agent2Agent)","Cloud Run"],L:[["3.1","Anatomía de un agente con ADK","Modelo, instrucciones y herramientas; pruebas locales con la interfaz de desarrollo (adk web). Lab: primer agente con herramientas.",4],["3.2","Herramientas y conexiones","Funciones en Python, especificaciones OpenAPI y MCP (protocolo estándar para conectar herramientas a la IA). Lab: agente que consulta una API real.",4],["3.3","Sistemas multiagente y flujos complejos","Agentes coordinadores y especialistas, flujos secuenciales, paralelos y en bucle; comunicación entre agentes con A2A. Lab: flujo de aprobación con 3 agentes.",5],["3.4","Memoria y contexto","Sesiones y memoria de largo plazo (Memory Bank) para conversaciones que recuerdan.",3],["3.5","Rendimiento, escalabilidad y costo","Latencia, streaming (respuesta en tiempo real), caché de contexto, cuotas y reintentos. Lab: prueba de carga y optimización.",4]],ev:"Reto: sistema multiagente que resuelve un proceso de negocio de punta a punta, con métricas de latencia y costo."},{c:"#D97706",lvl:"Experto",t:"Implementación, MLOps y seguridad",h:16,labs:3,out:"Lleva agentes a producción de forma reproducible, medible, segura y conforme a las políticas de la organización.",pre:"Módulos 1 a 3. Nociones de Git y de redes en la nube.",tools:["Agent Runtime (antes Agent Engine)","Cloud Run / GKE","Evaluación de agentes (Gen AI evals)","Cloud Logging / Trace / Monitoring","IAM","VPC Service Controls","Model Armor","Sensitive Data Protection","Secret Manager"],L:[["4.1","Estrategias de despliegue","Agent Runtime (antes Agent Engine) vs Cloud Run vs GKE; versiones, despliegue gradual (canary) y reversión. Lab: desplegar el agente del curso.",4],["4.2","MLOps / LLMOps","Evaluación automática, pipelines, registro de versiones y monitoreo de calidad en el tiempo. Lab: pipeline de evaluación antes de cada versión.",4],["4.3","Observabilidad","Registros, trazas y alertas para saber qué hizo el agente y por qué.",2],["4.4","Seguridad y cumplimiento","IAM con mínimo privilegio, VPC Service Controls (perímetro de red), CMEK (llaves de cifrado propias), Model Armor contra prompt injection y protección de datos sensibles. Lab: bloquear un ataque simulado de prompt injection.",4],["4.5","Presentación del proyecto final","Demostración, revisión de la rúbrica y retroalimentación.",2]],ev:'Proyecto final evaluado con rúbrica (ver pestaña "Proyecto final").'}],o=0;function n(){e("#path").innerHTML=a.map((function(e,a){return'<div class="pm'+(a===o?" on":"")+'" style="--c:'+e.c+'" data-i="'+a+'"><small>Módulo '+(a+1)+" · "+e.lvl+"</small><h3>"+e.t+'</h3><div class="meta">⏱ '+e.h+" h · 🧪 "+e.labs+" labs</div></div>"})).join("");var n=a[o];e("#mdet").innerHTML='<span class="eb" style="color:'+n.c+'">Módulo '+(o+1)+" · Nivel "+n.lvl+"</span><h3>"+n.t+'</h3><div class="grid2"><ul class="ls">'+n.L.map((function(e){return'<li><span class="h">'+e[0]+" · "+e[3]+"h</span><div><b>"+e[1]+"</b><span>"+e[2]+"</span>"+(e[4]?'<br><button class="cta" style="margin-top:8px;padding:7px 12px;font-size:13px" data-go="lesson">Abrir lección 2.2 →</button>':"")+"</div></li>"})).join("")+'</ul><div><div class="box"><h4>Resultado</h4><p>'+n.out+'</p></div><div class="box"><h4>Herramientas</h4><div class="chips">'+n.tools.map((function(e){return'<span class="chip">'+e+"</span>"})).join("")+'</div></div><div class="box"><h4>Prerrequisitos</h4><p>'+n.pre+'</p></div><div class="box"><h4>Evaluación</h4><p>'+n.ev+"</p></div></div></div>"}e("#path").onclick=function(e){var a=e.target.closest("[data-i]");a&&(o=+a.dataset.i,n())},e("#mdet").onclick=function(e){e.target.closest("[data-go]")&&document.querySelector('[data-v="lesson"]').click()},n();var s=[["📄","Ingesta","Se cargan los documentos de la empresa (PDF, Word, páginas internas) a Cloud Storage o a un conector."],["✂️","Troceado","Cada documento se divide en fragmentos (chunks) de tamaño controlado, con algo de solapamiento para no cortar ideas a la mitad."],["🔢","Embeddings","Un modelo convierte cada fragmento en un vector: una lista de números que representa su significado."],["🗂","Índice","Los vectores se guardan en una base vectorial que permite buscar por parecido de significado, no por palabras exactas."],["🔎","Recuperación","La pregunta del usuario también se convierte en vector y se traen los fragmentos más parecidos (top-k)."],["💬","Generación","El modelo Gemini responde usando solo esos fragmentos como contexto y cita la fuente. Así se reduce la invención (alucinación)."]],r=0;function t(){e("#steps").innerHTML=s.map((function(e,a){return'<div class="st'+(a===r?" on":"")+'" data-s="'+a+'"><i>'+e[0]+"</i>"+(a+1)+". "+e[1]+"</div>"})).join(""),e("#stx").innerHTML="<b>"+s[r][1]+":</b> "+s[r][2]}e("#steps").onclick=function(e){var a=e.target.closest("[data-s]");a&&(r=+a.dataset.s,t())},t();var i=[{id:"POL-01",t:"Política de teletrabajo",x:"Los colaboradores con más de 6 meses en la empresa pueden teletrabajar hasta 2 días por semana, con aprobación de su líder en el sistema de RR. HH.",k:"teletrabajo remoto casa trabajar desde días semana home office"},{id:"POL-02",t:"Vacaciones",x:"Cada colaborador tiene 15 días hábiles de vacaciones por año. Deben solicitarse con al menos 15 días de anticipación y no se pueden acumular más de dos periodos.",k:"vacaciones descanso días hábiles solicitar anticipación acumular"},{id:"POL-03",t:"Viáticos",x:"En viajes de trabajo se reconoce alojamiento según tarifa aprobada y alimentación hasta el tope diario definido por Finanzas. Las facturas se cargan en un plazo máximo de 5 días.",k:"viáticos viaje gastos alimentación comida almuerzo hotel alojamiento facturas reembolso"},{id:"SEG-01",t:"Seguridad de la información",x:"Es obligatorio activar la verificación en dos pasos. Ante un correo sospechoso, no abras enlaces y repórtalo de inmediato al equipo de seguridad.",k:"seguridad contraseña correo sospechoso phishing verificación dos pasos hackeo"},{id:"TI-02",t:"Equipos de cómputo",x:"Los portátiles se renuevan cada 3 años. Para reportar una falla se abre un ticket en la mesa de ayuda, que responde en máximo 8 horas hábiles.",k:"portátil cambian cambio computador equipo falla daño ticket mesa ayuda renovar"}],c="cuanto cuanta dan dar dame quiero saber necesito el la los las un una de del en y o a que por para con se es mi me tengo cuantos cuántos cuantas cuántas como cómo cual cuál qué que puedo debo hay si al lo su sus".split(" ");function l(e){return e.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9ñ ]/g," ").split(/\s+/).filter((function(e){return e.length>2&&c.indexOf(e)<0}))}function d(e){return e.replace(/(es|s)$/,"").slice(0,6)}function u(e,a){var o=l(e).map(d);if(!o.length)return 0;var n=l(a.t+" "+a.x+" "+a.k).map(d),s=o.filter((function(e){return n.indexOf(e)>=0})).length;return Math.min(.97,.32+s/o.length*.62)}function p(a){e("#docs").innerHTML=i.map((function(e,o){var n=a?a[o]:null;return'<div class="doc'+(n&&n.top?" hit":"")+'">'+(n?'<span class="sc">'+n.v.toFixed(2)+"</span>":"")+"<b>"+e.id+" · "+e.t+"</b><small>"+e.x+"</small></div>"})).join("")}function m(){var a=e("#qIn").value.trim();if(a){var o=e("#ans");if(!e("#ragOn").checked)return p(),void(o.innerHTML='<span class="no">⚠ Sin RAG:</span> "No tengo acceso a las políticas de tu empresa. En general, estas condiciones varían según cada organización; te sugiero consultar con el área encargada."<br><br><small style="color:#94A3B8">El modelo no conoce las políticas de Nordia: responde de forma genérica o puede inventar. Este es el problema que resuelve RAG.</small>');var n=i.map((function(e){return{v:u(a,e)}})),s=n.map((function(e,a){return[e.v,a]})).sort((function(e,a){return a[0]-e[0]})),r=s[0];if(r[0]<.5)return p(n),void(o.innerHTML='🔎 Ningún fragmento supera el umbral de similitud (0,50).<br><br>"No encontré esa información en las políticas de Nordia. ¿Quieres que abra un caso con Recursos Humanos?"<br><br><small style="color:#94A3B8">Buena práctica: si la recuperación no encuentra nada relevante, el agente lo dice en vez de inventar.</small>');s.slice(0,3).forEach((function(e){e[0]>=.5&&(n[e[1]].top=!0)})),p(n);var t,c=i[r[1]];o.innerHTML='<span style="color:#86EFAC">✓ Con RAG (top-k = 3):</span> '+(t=c.x,String(t).replace(/[&<>"]/g,(function(e){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[e]}))+' <span class="src">')+c.id+'</span><br><br><small style="color:#94A3B8">Fragmento recuperado con similitud '+r[0].toFixed(2)+". La respuesta se basa en el documento interno y cita su fuente.</small>"}}p(),e("#sugg").innerHTML=["¿Cuántos días de teletrabajo tengo?","¿Con cuánta anticipación pido vacaciones?","Me llegó un correo sospechoso","¿Cuándo cambian mi portátil?"].map((function(e){return"<button>"+e+"</button>"})).join(""),e("#sugg").onclick=function(a){var o=a.target.closest("button");o&&(e("#qIn").value=o.textContent,m())},e("#qGo").onclick=m,e("#qIn").onkeydown=function(e){"Enter"===e.key&&m()},e("#ragOn").onchange=function(){e("#qIn").value.trim()&&m()};var g=[["¿Qué problema principal resuelve RAG?",["Hace que el modelo sea más rápido","Permite responder con información propia y actualizada sin reentrenar el modelo","Reduce el costo de almacenamiento"],1,"RAG recupera fragmentos de tus documentos en el momento de la pregunta; no requiere reentrenar."],["¿Para qué sirve el solapamiento (chunk_overlap) al trocear?",["Para no cortar una idea entre dos fragmentos","Para duplicar documentos a propósito","Para cifrar el texto"],0,"Un poco de texto compartido entre fragmentos conserva el contexto en los bordes."],["Si la recuperación no trae el fragmento correcto, ¿qué pasa con la respuesta?",["El modelo la corrige solo","La respuesta probablemente será mala o incompleta","No influye"],1,"Primero se valida la recuperación (retrieval_query) y después la generación."],["¿Qué hace un modelo de embeddings?",["Traduce idiomas","Convierte texto en vectores que representan su significado","Comprime imágenes"],1,"Los vectores permiten buscar por parecido de significado y no solo por palabras exactas."],["Si la pregunta no tiene relación con ningún documento, el agente ideal debe…",["Inventar una respuesta convincente","Decir que no encontró la información y ofrecer otra vía","Responder con el documento más largo"],1,"Un umbral de similitud y una instrucción clara evitan alucinaciones."]];e("#quiz").innerHTML=g.map((function(e,a){return'<div class="q" data-q="'+a+'"><b>'+(a+1)+". "+e[0]+"</b>"+e[1].map((function(e,o){return'<label><input type="radio" name="q'+a+'" value="'+o+'"> '+e+"</label>"})).join("")+'<div class="why">💡 '+e[3]+"</div></div>"})).join(""),e("#qzGo").onclick=function(){var a=0;g.forEach((function(e,o){var n=document.querySelector('[data-q="'+o+'"]'),s=n.querySelector("input:checked");n.classList.add("done"),n.querySelectorAll("label").forEach((function(a,o){a.classList.remove("ok","bad"),o===e[2]?a.classList.add("ok"):s&&+s.value===o&&a.classList.add("bad")})),s&&+s.value===e[2]&&a++})),e("#qzScore").textContent=a+" / "+g.length+(a===g.length?" 🎉":"")}}();
+</script>
+</body>
+</html>
