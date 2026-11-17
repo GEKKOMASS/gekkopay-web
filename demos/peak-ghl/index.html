@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PEAK ⇄ GoHighLevel · Integration Console · Demo GEKKOMASS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0F1A;--p1:#111827;--p2:#0F172A;--ln:#1F2A3C;--tx:#E5E7EB;--mu:#94A3B8;--pk:#7C3AED;--pk2:#A78BFA;--gh:#3B82F6;--gh2:#93C5FD;--ok:#22C55E;--wr:#F59E0B;--er:#EF4444;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;--sans:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);font-size:14px;line-height:1.45;min-height:100vh}
+button{font:inherit;cursor:pointer}
+header{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--ln);background:#0B1220;position:sticky;top:0;z-index:5;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px}
+.brand .pk{background:var(--pk);padding:4px 9px;border-radius:7px}
+.brand .gh{background:var(--gh);padding:4px 9px;border-radius:7px}
+.brand small{display:block;font-weight:500;color:var(--mu);font-size:11.5px}
+.tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.tabs button{background:transparent;border:1px solid var(--ln);color:var(--mu);padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px}
+.tabs button.on{background:#1E293B;color:#fff;border-color:#334155}
+.lang{border:1px solid var(--ln);background:transparent;color:var(--tx);border-radius:9px;padding:7px 10px;font-weight:700;font-size:12px}
+main{padding:18px 20px 60px;max-width:1400px;margin:0 auto}
+.view{display:none}.view.on{display:block}
+.grid{display:grid;grid-template-columns:300px 1fr 1fr;gap:14px}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+.card{background:var(--p1);border:1px solid var(--ln);border-radius:14px;padding:14px;min-width:0}
+.card h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:10px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:#1E293B;color:var(--mu);text-transform:none;letter-spacing:0}
+.pill.ok{background:rgba(34,197,94,.15);color:#86EFAC}.pill.wr{background:rgba(245,158,11,.15);color:#FCD34D}.pill.er{background:rgba(239,68,68,.15);color:#FCA5A5}
+.loc{border:1px solid var(--ln);border-radius:11px;padding:10px;margin-bottom:8px;background:var(--p2)}
+.loc b{display:block}.loc small{color:var(--mu);font-family:var(--mono);font-size:11px}
+.loc .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.btn{border:0;border-radius:9px;padding:8px 11px;font-weight:700;font-size:12.5px;color:#fff;background:#334155}
+.btn.p{background:var(--pk)}.btn.g{background:var(--gh)}.btn.o{background:transparent;border:1px solid #334155;color:var(--tx)}.btn.r{background:#7F1D1D}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.list{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow:auto}
+.it{border:1px solid var(--ln);border-radius:10px;padding:8px 10px;background:var(--p2);display:flex;justify-content:space-between;gap:8px;animation:pop .35s}
+.it small{display:block;color:var(--mu);font-size:11.5px}
+.it .id{font-family:var(--mono);font-size:10.5px;color:#64748B;text-align:right}
+@keyframes pop{from{transform:scale(.97);background:#1E293B}to{transform:none}}
+.side{border-top:3px solid var(--pk)}.side.ghs{border-top-color:var(--gh)}
+.log{background:#05080F;border:1px solid var(--ln);border-radius:14px;padding:12px;font-family:var(--mono);font-size:12px;height:300px;overflow:auto;margin-top:14px}
+.log div{white-space:pre-wrap;padding:2px 0;border-bottom:1px dashed #111827}
+.log .t{color:#475569}.log .ok{color:#4ADE80}.log .wr{color:#FBBF24}.log .er{color:#F87171}.log .in{color:#93C5FD}.log .pk{color:#C4B5FD}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:800px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--p1);border:1px solid var(--ln);border-radius:12px;padding:10px 12px}
+.kpi small{color:var(--mu);font-size:11.5px}.kpi b{display:block;font-size:22px;font-weight:800}
+/* sso */
+.ghl{display:grid;grid-template-columns:210px 1fr;border:1px solid var(--ln);border-radius:14px;overflow:hidden;min-height:470px;background:#F8FAFC;color:#0F172A}
+@media(max-width:800px){.ghl{grid-template-columns:1fr}}
+.ghl nav{background:#111827;color:#CBD5E1;padding:12px;display:flex;flex-direction:column;gap:2px}
+.ghl nav div{padding:8px 10px;border-radius:8px;font-size:13px}
+.ghl nav .on{background:#1F2937;color:#fff}
+.ghl nav .peak{color:#C4B5FD;font-weight:700;cursor:pointer}
+.frame{padding:18px;position:relative}
+.frame .bar{font-family:var(--mono);font-size:11px;color:#64748B;background:#E2E8F0;padding:6px 10px;border-radius:8px;margin-bottom:12px;word-break:break-all}
+.steps{display:flex;flex-direction:column;gap:8px}
+.step{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:10px;background:#fff;border:1px solid #E2E8F0;opacity:.35;transition:.3s}
+.step.on{opacity:1;border-color:#A78BFA}
+.step i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#EDE9FE;color:#6D28D9;font-weight:800;font-size:12px;flex:none}
+.step code{font-family:var(--mono);font-size:11.5px;background:#F1F5F9;padding:1px 5px;border-radius:5px}
+.welcome{margin-top:14px;padding:14px;border-radius:12px;background:linear-gradient(135deg,#7C3AED,#3B82F6);color:#fff;display:none}
+.welcome.on{display:block}
+/* arch */
+.arch{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}
+@media(max-width:900px){.arch{grid-template-columns:1fr 1fr}}
+.box{border:1px solid var(--ln);border-radius:12px;padding:12px;background:var(--p1)}
+.box b{display:block;margin-bottom:6px}
+.box ul{margin:0;padding-left:16px;color:var(--mu);font-size:12.5px}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.tbl th,.tbl td{border-bottom:1px solid var(--ln);padding:7px 8px;text-align:left;vertical-align:top}
+.tbl th{color:var(--mu);font-weight:600}
+.tbl code{font-family:var(--mono);color:#C4B5FD;font-size:12px}
+.note{color:var(--mu);font-size:12px;margin-top:10px}
+.wm{position:fixed;right:12px;bottom:12px;background:rgba(124,58,237,.9);color:#fff;font-size:11px;font-weight:800;padding:6px 10px;border-radius:8px;z-index:9;pointer-events:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="pk">PEAK</span>⇄<span class="gh">GoHighLevel</span><div><span data-i="title">Consola de integración</span><small data-i="sub">Demo interactiva · API v2 · OAuth por subcuenta · Webhooks · SSO</small></div></div>
+  <div class="tabs" id="tabs">
+    <button data-v="sync" class="on" data-i="t1">Sincronización</button>
+    <button data-v="sso" data-i="t2">SSO en iframe</button>
+    <button data-v="arch" data-i="t3">Arquitectura</button>
+  </div>
+  <button class="lang" id="lang">EN</button>
+</header>
+<main>
+  <section class="view on" id="v-sync">
+    <div class="kpis">
+      <div class="kpi"><small data-i="k1">Subcuentas conectadas</small><b id="kConn">0</b></div>
+      <div class="kpi"><small data-i="k2">Registros sincronizados</small><b id="kSync">0</b></div>
+      <div class="kpi"><small data-i="k3">Webhooks rechazados</small><b id="kRej">0</b></div>
+      <div class="kpi"><small data-i="k4">Reintentos en cola</small><b id="kRetry">0</b></div>
+    </div>
+    <div class="grid">
+      <div class="card"><h3><span data-i="locs">Subcuentas (locations)</span></h3><div id="locs"></div>
+        <p class="note" data-i="locnote">Cada subcuenta autoriza por OAuth 2.0 y guarda sus propios tokens (cifrados, con RLS en Supabase).</p></div>
+      <div class="card side"><h3><span>PEAK CRM</span><span class="pill" id="pkLoc">—</span></h3>
+        <div class="acts"><button class="btn p" data-a="pkContact" data-i="a1">+ Contacto</button><button class="btn p" data-a="pkAppt" data-i="a2">+ Cita</button><button class="btn p" data-a="pkMsg" data-i="a3">Enviar WhatsApp</button></div>
+        <div class="list" id="pkList"></div></div>
+      <div class="card side ghs"><h3><span>GoHighLevel</span><span class="pill" id="ghLoc">—</span></h3>
+        <div class="acts"><button class="btn g" data-a="ghContact" data-i="b1">Webhook: ContactCreate</button><button class="btn g" data-a="ghAppt" data-i="b2">Webhook: AppointmentCreate</button><button class="btn g" data-a="ghMsg" data-i="b3">Webhook: InboundMessage</button></div>
+        <div class="acts"><button class="btn o" data-a="replay" data-i="c1">Reenviar webhook (replay)</button><button class="btn r" data-a="forged" data-i="c2">Firma falsa</button><button class="btn o" data-a="rate" data-i="c3">Simular 429</button><button class="btn o" data-a="expire" data-i="c4">Expirar token</button></div>
+        <div class="list" id="ghList"></div></div>
+    </div>
+    <div class="log" id="log"></div>
+  </section>
+
+  <section class="view" id="v-sso">
+    <div class="ghl">
+      <nav><div>🏠 Dashboard</div><div>💬 Conversations</div><div>📅 Calendars</div><div>👥 Contacts</div><div>⚙ Opportunities</div><div class="peak" id="ssoGo">🟣 PEAK</div></nav>
+      <div class="frame">
+        <div class="bar" id="ssoUrl">https://app.gohighlevel.com/v2/location/…/custom-page-link/peak</div>
+        <div class="steps" id="ssoSteps"></div>
+        <div class="welcome" id="ssoWelcome"></div>
+        <p class="note" style="color:#64748B" data-i="ssonote">Toca "PEAK" en el menú de la izquierda para ver el inicio de sesión único dentro de GoHighLevel.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-arch">
+    <div class="arch">
+      <div class="box"><b>🖥 PEAK frontend</b><ul><li>JavaScript puro</li><li>Página embebible en iframe (sin X-Frame-Options DENY)</li><li>postMessage para contexto de usuario</li></ul></div>
+      <div class="box"><b>⚡ Supabase Edge Functions (TS)</b><ul><li><code>ghl-oauth-callback</code></li><li><code>ghl-webhooks</code> (firma + idempotencia)</li><li><code>ghl-sync-worker</code> (cola + backoff)</li><li><code>ghl-sso-decrypt</code></li></ul></div>
+      <div class="box"><b>🐘 Postgres</b><ul><li>Tokens cifrados por location</li><li>Mapa de IDs PEAK ⇄ GHL</li><li>Registro de eventos únicos</li><li>RLS por agencia</li></ul></div>
+      <div class="box"><b>🔷 GoHighLevel API v2</b><ul><li>OAuth 2.0 Authorization Code</li><li>Contacts · Calendars · Conversations</li><li>Webhooks firmados</li><li>Custom Page (menú) + SSO</li></ul></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>Modelo de datos (resumen)</h3>
+      <table class="tbl"><tr><th>Tabla</th><th>Para qué</th><th>Clave</th></tr>
+        <tr><td><code>ghl_connections</code></td><td>Tokens por subcuenta, expiración y scopes</td><td>location_id</td></tr>
+        <tr><td><code>ghl_id_map</code></td><td>Relación de contactos, citas y conversaciones entre sistemas</td><td>(entity, peak_id) · (entity, ghl_id)</td></tr>
+        <tr><td><code>ghl_webhook_events</code></td><td>Evita procesar dos veces el mismo webhook</td><td>webhook_id único</td></tr>
+        <tr><td><code>ghl_sync_jobs</code></td><td>Cola de envíos con reintentos y backoff exponencial</td><td>status + next_run_at</td></tr></table>
+      <p class="note">Reglas: origen marcado en cada cambio para evitar ecos (A→B→A), "última escritura gana" por fecha de actualización, y renovación del token antes de que venza. Demo simulada: no contiene credenciales ni código de producción. © GEKKOMASS.</p>
+    </div>
+  </section>
+</main>
+<div class="wm">DEMO · © GEKKOMASS</div>
+<script>
+/*! © GEKKOMASS · Demo de integración PEAK ⇄ GoHighLevel · Prohibida su copia */
+!function(){"use strict";var e=function(e){return document.querySelector(e)},t="es",o={en:{title:"Integration console",sub:"Interactive demo · API v2 · OAuth per sub-account · Webhooks · SSO",t1:"Sync",t2:"SSO in iframe",t3:"Architecture",k1:"Connected sub-accounts",k2:"Synced records",k3:"Rejected webhooks",k4:"Retries queued",locs:"Sub-accounts (locations)",locnote:"Each sub-account authorizes via OAuth 2.0 and keeps its own tokens (encrypted, RLS in Supabase).",a1:"+ Contact",a2:"+ Appointment",a3:"Send WhatsApp",b1:"Webhook: ContactCreate",b2:"Webhook: AppointmentCreate",b3:"Webhook: InboundMessage",c1:"Replay webhook",c2:"Forged signature",c3:"Simulate 429",c4:"Expire token",ssonote:'Click "PEAK" in the left menu to see single sign-on inside GoHighLevel.'},es:{}};document.querySelectorAll("[data-i]").forEach((function(e){o.es[e.dataset.i]=e.textContent})),e("#lang").onclick=function(){t="es"===t?"en":"es",this.textContent="es"===t?"EN":"ES",document.querySelectorAll("[data-i]").forEach((function(e){var n=o[t][e.dataset.i];n&&(e.textContent=n)})),m(),A()},e("#tabs").onclick=function(e){var t=e.target.closest("[data-v]");t&&(document.querySelectorAll("#tabs button").forEach((function(e){e.classList.toggle("on",e===t)})),document.querySelectorAll(".view").forEach((function(e){e.classList.toggle("on",e.id==="v-"+t.dataset.v)})))};var n=function(e,t){for(var o="",n=0;n<(t||10);n++)o+="abcdefghijkmnpqrstuvwxyz23456789"[Math.floor(32*Math.random())];return e+o},a=[{id:"loc_Kq8xP2",name:"Aseguradora Andina · Bogotá",conn:!1,exp:0},{id:"loc_M7tR4z",name:"Seguros del Valle · Cali",conn:!1,exp:0},{id:"loc_B3nW9e",name:"Protección Total · Medellín",conn:!1,exp:0}],i=null,s={pk:[],gh:[],map:{},events:{},synced:0,rejected:0,retries:0,lastWebhook:null},c=["Laura Gómez","Carlos Ruiz","Ana Torres","Diego Martín","Sofía Navarro","Javier Ortega","María López","Andrés Castro"],r=["Vida","Salud","Autos","Hogar","Exequias"],d=function(e){return e[Math.floor(Math.random()*e.length)]};function l(t,o){var n=document.createElement("div");n.innerHTML='<span class="t">'+(new Date).toTimeString().slice(0,8)+'</span> <span class="'+t+'">'+o+"</span>";var a=e("#log");a.appendChild(n),a.scrollTop=a.scrollHeight}function u(){e("#kConn").textContent=a.filter((function(e){return e.conn})).length,e("#kSync").textContent=s.synced,e("#kRej").textContent=s.rejected,e("#kRetry").textContent=s.retries}function p(){return!!i||(l("wr","es"===t?'⚠ Conecta primero una subcuenta (botón "Conectar").':'⚠ Connect a sub-account first ("Connect" button).'),!1)}var h=function(e){return new Promise((function(t){setTimeout(t,e)}))};function m(){e("#locs").innerHTML=a.map((function(e,o){var n=e.conn?Math.max(0,Math.round((e.exp-Date.now())/36e5)):0;return'<div class="loc"><b>'+e.name+"</b><small>"+e.id+'</small><div class="row">'+(e.conn?'<span class="pill ok">✓ '+("es"===t?"conectada · token ":"connected · token ")+n+"h</span>":'<span class="pill">'+("es"===t?"sin conectar":"not connected")+"</span>")+(e.conn?'<button class="btn o" data-use="'+o+'">'+(i===e?"● ":"")+("es"===t?"Usar":"Use")+"</button>":'<button class="btn p" data-oauth="'+o+'">'+("es"===t?"Conectar":"Connect")+"</button>")+"</div></div>"})).join(""),e("#pkLoc").textContent=e("#ghLoc").textContent=i?i.name.split(" · ")[0]:"—"}function g(e,t){var o=t.map?'<div class="id">'+t.id+"<br>⇄ "+t.map+"</div>":'<div class="id">'+t.id+"<br>…</div>";return'<div class="it"><div><b>'+t.icon+" "+t.title+"</b><small>"+t.sub+"</small></div>"+o+"</div>"}function v(){var t=function(e){return i&&e.loc===i.id};e("#pkList").innerHTML=s.pk.filter(t).slice().reverse().map((function(e){return g(0,e)})).join("")||'<small style="color:#64748B">—</small>',e("#ghList").innerHTML=s.gh.filter(t).slice().reverse().map((function(e){return g(0,e)})).join("")||'<small style="color:#64748B">—</small>',u()}function k(e){var o=d(c);if("contact"===e)return{icon:"👤",title:o,sub:("es"===t?"Interés: ":"Interest: ")+d(r)+" · +57 3"+Math.floor(1e8+899999999*Math.random())};if("appt"===e){var n=new Date(Date.now()+864e5*(1+Math.floor(6*Math.random())));return n.setHours(9+Math.floor(8*Math.random()),0,0,0),{icon:"📅",title:("es"===t?"Cita · ":"Appointment · ")+o,sub:n.toLocaleString("es"===t?"es-CO":"en-US",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"})+" · "+d(r)}}return{icon:"💬",title:"WhatsApp · "+o,sub:d("es"===t?['"¿Me cotizan el seguro de vida?"','"Ya envié los documentos"','"¿Cuánto cuesta el de autos?"']:['"Can you quote life insurance?"','"I sent the documents"','"How much is auto insurance?"'])}}e("#locs").onclick=async function(e){var t=e.target.closest("button");if(t){if(t.dataset.use)return i=a[Number(t.dataset.use)],m(),void l("in","Active location → "+i.id);var o=a[Number(t.dataset.oauth)];t.disabled=!0,l("pk","→ GET marketplace.gohighlevel.com/oauth/chooselocation?response_type=code&client_id=•••&scope=contacts.write calendars.write conversations.write"),await h(500),l("in","← Redirect /ghl-oauth-callback?code="+n("",16)+" (location "+o.id+")"),await h(450),l("pk","→ POST services.leadconnectorhq.com/oauth/token  grant_type=authorization_code  user_type=Location"),await h(500),l("ok","← 200 access_token (≈24h) + refresh_token (rotates on use) · scopes OK"),await h(300),l("ok","✓ Stored encrypted in ghl_connections (RLS by agency) · location "+o.id),o.conn=!0,o.exp=Date.now()+864e5,i=o,u(),m()}};var b=!1;async function f(e){if(p()){i.exp<Date.now()+3e5&&await async function(){l("wr","⟳ Token about to expire → POST /oauth/token grant_type=refresh_token"),await h(500),i.exp=Date.now()+864e5,l("ok","← 200 new access_token + NEW refresh_token (old one invalidated) · saved"),m()}();var t=k(e);t.id=n("pk_",8),t.loc=i.id,t.origin="peak",s.pk.push(t),v();var o="contact"===e?"POST /contacts/":"appt"===e?"POST /calendars/events/appointments":"POST /conversations/messages";l("pk","• PEAK "+e+" "+t.id+" created → enqueue ghl_sync_jobs"),await h(350),b&&(b=!1,s.retries++,u(),l("wr","← 429 Too Many Requests · retry in 2s (exponential backoff + jitter)"),await h(2e3),s.retries--,u()),l("pk","→ "+o+"  Version: 2021-07-28  Authorization: Bearer •••"),await h(400);var a=Object.assign({},t,{id:n("contact"===e?"ct_":"appt"===e?"ev_":"msg_",10),origin:"peak"});a.map=t.id,t.map=a.id,s.gh.push(a),s.map[t.id]=a.id,s.synced++,l("ok","← 201 "+a.id+" · ghl_id_map("+t.id+" ⇄ "+a.id+")"),await h(500),l("t","↩ GHL echo webhook for "+a.id+" ignored (origin=peak, anti-loop)"),v()}}async function w(e,t){if(p()){var o="contact"===e?"ContactCreate":"appt"===e?"AppointmentCreate":"InboundMessage",a=(t=t||{}).replay&&s.lastWebhook?s.lastWebhook:{webhookId:n("wh_",12),type:o,kind:e,rec:k(e)};if(l("in","← POST /ghl-webhooks  type="+a.type+"  webhookId="+a.webhookId+"  locationId="+i.id),await h(300),t.forged)return s.rejected++,u(),void l("er","✗ X-GHL-Signature (Ed25519) INVALID → 401 rejected, nothing written");if(l("ok","✓ X-GHL-Signature verified (Ed25519 public key)"),await h(250),s.events[a.webhookId])return s.rejected++,u(),void l("wr","↺ Duplicate webhookId "+a.webhookId+" → 200 OK, skipped (idempotent)");s.events[a.webhookId]=1,s.lastWebhook=a,l("t","  INSERT ghl_webhook_events(webhook_id) ON CONFLICT DO NOTHING → new"),await h(300);var c=Object.assign({},a.rec,{id:n("contact"===e?"ct_":"appt"===e?"ev_":"msg_",10),loc:i.id,origin:"ghl"}),r=Object.assign({},a.rec,{id:n("pk_",8),loc:i.id,origin:"ghl"});c.map=r.id,r.map=c.id,s.gh.push(c),s.pk.push(r),s.synced++,l("ok","✓ Upsert PEAK "+("contact"===e?"contact":"appt"===e?"appointment":"conversation timeline")+" "+r.id+" ⇄ "+c.id+" (last-write-wins by dateUpdated)"),v()}}document.querySelector("#v-sync").addEventListener("click",(function(e){var o=e.target.closest("[data-a]");if(o){var n=o.dataset.a;if("pkContact"===n&&f("contact"),"pkAppt"===n&&f("appt"),"pkMsg"===n&&f("msg"),"ghContact"===n&&w("contact"),"ghAppt"===n&&w("appt"),"ghMsg"===n&&w("msg"),"replay"===n){if(!s.lastWebhook)return l("wr","es"===t?"⚠ Primero recibe un webhook.":"⚠ Receive a webhook first.");w(s.lastWebhook.kind,{replay:!0})}if("forged"===n&&w("contact",{forged:!0}),"rate"===n&&(b=!0,l("wr","es"===t?"⚙ El próximo envío a GHL recibirá 429":"⚙ Next call to GHL will get 429")),"expire"===n){if(!p())return;i.exp=Date.now()+6e4,m(),l("wr","es"===t?"⚙ Token a 1 minuto de vencer: el próximo envío lo renueva solo":"⚙ Token 1 min from expiry: next call refreshes it")}}}));var S=function(){return"es"===t?[["Menú personalizado","GoHighLevel carga la página de PEAK dentro de un <code>iframe</code> (Custom Page)."],["Pedir contexto",'PEAK envía <code>postMessage({ message: "REQUEST_USER_DATA" })</code> a la ventana padre.'],["Respuesta cifrada","GHL responde <code>REQUEST_USER_DATA_RESPONSE</code> con los datos del usuario cifrados."],["Descifrar en el servidor","La Edge Function <code>ghl-sso-decrypt</code> los descifra con el Shared Secret (nunca en el navegador)."],["Sesión PEAK","Se busca o crea el usuario por <code>userId</code> + <code>activeLocation</code> y se abre la sesión sin pedir contraseña."]]:[["Custom menu link","GoHighLevel loads the PEAK page inside an <code>iframe</code> (Custom Page)."],["Request context",'PEAK sends <code>postMessage({ message: "REQUEST_USER_DATA" })</code> to the parent window.'],["Encrypted reply","GHL replies <code>REQUEST_USER_DATA_RESPONSE</code> with encrypted user data."],["Server-side decrypt","Edge Function <code>ghl-sso-decrypt</code> decrypts it with the Shared Secret (never in the browser)."],["PEAK session","User is found or created by <code>userId</code> + <code>activeLocation</code>; session opens with no password."]]},y=0;function A(){e("#ssoSteps").innerHTML=S().map((function(e,t){return'<div class="step'+(t<y?" on":"")+'"><i>'+(t+1)+"</i><div><b>"+e[0]+"</b><br>"+e[1]+"</div></div>"})).join("")}e("#ssoGo").onclick=async function(){document.querySelectorAll(".ghl nav div").forEach((function(e){e.classList.toggle("on",e===this)}),this),e("#ssoWelcome").classList.remove("on"),y=0,A(),e("#ssoUrl").textContent="https://app.gohighlevel.com/v2/location/"+(i?i.id:"loc_Kq8xP2")+"/custom-page-link/peak  →  iframe: https://peak.example/embed";for(var o=1;o<=5;o++)await h(650),y=o,A();await h(400);var n=e("#ssoWelcome");n.classList.add("on"),n.innerHTML='<b style="font-size:18px">'+("es"===t?"¡Hola, Laura! 👋":"Hi, Laura! 👋")+"</b><br>"+("es"===t?"Sesión PEAK abierta con SSO · Rol: Admin · Location: ":"PEAK session opened via SSO · Role: Admin · Location: ")+(i?i.name:"Aseguradora Andina · Bogotá")},m(),v(),A(),l("t","© GEKKOMASS · simulated environment — no real credentials or production code"),l("in","es"===t?"ℹ Paso 1: conecta una subcuenta. Luego crea registros en PEAK o recibe webhooks de GHL.":"ℹ Step 1: connect a sub-account.")}();
+</script>
+</body>
+</html>
